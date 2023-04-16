@@ -1,48 +1,49 @@
-resources:
-- repo: self
-queue:
-  name: Hosted Linux Preview
-  demands: npm
+trigger:
+ branches:
+    include:
+      - main
+ paths:
+   include:
+     - /nodejs/serverless-microservices-functionapp-triparchiver
+
+variables:
+  # Agent VM image name
+  vmImageName: 'windows-latest'
+
+  # Working Directory
+  workingDirectory: '$(System.DefaultWorkingDirectory)/nodejs/serverless-microservices-functionapp-triparchiver'
+
+pool:
+  name: Azure Pipelines
 
 steps:
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    workingDir: 'nodejs/serverless-microservices-functionapp-triparchiver'
+- script: |
+   npm install
+  workingDirectory: $(workingDirectory)
+  displayName: 'Install Dependencies'
 
-    verbose: false
-
-
-- task: DeleteFiles@1
-  displayName: 'Delete node_modules'
-  inputs:
-    SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
-
-    Contents: 'node_modules'
-
+- script: |
+   npm run build
+  workingDirectory: $(workingDirectory) 
+  displayName: 'Build the Project'
 
 - task: CopyFiles@2
-  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)/NodeFunctionApp'
+  displayName: 'Copy Files'
   inputs:
-    SourceFolder: 'nodejs/serverless-microservices-functionapp-triparchiver'
-
+    SourceFolder: '$(workingDirectory)'
+    Contents: 'dist/**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
+    CleanTargetFolder: true
 
-
-- task: ArchiveFiles@1
+- task: ArchiveFiles@2
   displayName: 'FunctionApp Archive'
   inputs:
-    rootFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
-
-    includeRootFolder: false
-
+    rootFolderOrFile: $(Build.ArtifactStagingDirectory)/NodeFunctionApp
+    archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
-
+    includeRootFolder: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp.zip'
-
-
-

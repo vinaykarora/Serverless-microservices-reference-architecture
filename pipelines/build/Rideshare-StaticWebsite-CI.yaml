@@ -19,7 +19,7 @@ pool:
 
 steps:
 - script: |
-   npm install && npm audit fix --force && npm i -D eslint@7.32.0
+   npm install
   workingDirectory: $(workingDirectory)
   displayName: 'Install Dependencies'
 
