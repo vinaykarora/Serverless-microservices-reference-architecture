@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
-    <_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ServerlessMicroservices.Models\ServerlessMicroservices.Models.csproj" />
-    <ProjectReference Include="..\ServerlessMicroservices.Shared\ServerlessMicroservices.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="host.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="local.settings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+		<_FunctionsSkipCleanOutput>true</_FunctionsSkipCleanOutput>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ServerlessMicroservices.Models\ServerlessMicroservices.Models.csproj" />
+		<ProjectReference Include="..\ServerlessMicroservices.Shared\ServerlessMicroservices.Shared.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="host.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="local.settings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToPublishDirectory>Never</CopyToPublishDirectory>
+		</None>
+	</ItemGroup>
 </Project>
