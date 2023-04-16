@@ -6,7 +6,7 @@ variables:
   vmImageName: 'windows-latest'
 
   # Working Directory
-  workingDirectory: '$(System.DefaultWorkingDirectory)/serverless-microservices-web'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/web/serverless-microservices-web'
 
 pool:
   name: Azure Pipelines
