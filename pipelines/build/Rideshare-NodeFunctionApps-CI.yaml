@@ -31,7 +31,6 @@ steps:
   displayName: 'Copy Files'
   inputs:
     SourceFolder: '$(workingDirectory)'
-    Contents: 'dist/**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/NodeFunctionApp'
     CleanTargetFolder: true
 
