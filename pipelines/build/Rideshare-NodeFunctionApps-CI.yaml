@@ -23,7 +23,7 @@ steps:
   displayName: 'Install Dependencies'
 
 - script: |
-   npm run build
+   npm run pack
   workingDirectory: $(workingDirectory) 
   displayName: 'Build the Project'
 
