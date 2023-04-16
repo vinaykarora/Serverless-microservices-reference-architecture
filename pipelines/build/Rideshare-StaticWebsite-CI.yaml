@@ -14,12 +14,12 @@ pool:
 steps:
 - script: |
    npm install
-   
+  workingDirectory: $(workingDirectory)
   displayName: 'Install Dependencies'
 
 - script: |
    npm run build
-   
+  workingDirectory: $(workingDirectory) 
   displayName: 'Build the Project'
 
 - task: CopyFiles@2
