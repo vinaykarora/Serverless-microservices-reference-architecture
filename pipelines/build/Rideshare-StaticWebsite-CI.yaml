@@ -7,6 +7,7 @@ variables:
 
   # Working Directory
   workingDirectory: '$(System.DefaultWorkingDirectory)/web/serverless-microservices-web'
+  BROWSERSLIST_IGNORE_OLD_DATA: true
 
 pool:
   name: Azure Pipelines
@@ -25,13 +26,10 @@ steps:
 - task: CopyFiles@2
   displayName: 'Copy Files'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)/dist'
+    SourceFolder: '$(workingDirectory)/dist'
+    Contents: 'dist/**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-- task: ArchiveFiles@2
-  displayName: 'Archive $(Build.ArtifactStagingDirectory)'
-  inputs:
-    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: staticvueweb'
