@@ -1,42 +1,42 @@
-resources:
-  - repo: self
-queue:
-  name: Hosted Linux Preview
-  demands: npm
+trigger:
+ branches:
+    include:
+      - main
+ paths:
+   include:
+     - /web/serverless-microservices-web
+
+variables:
+  # Agent VM image name
+  vmImageName: 'windows-latest'
+
+  # Working Directory
+  workingDirectory: '$(System.DefaultWorkingDirectory)/web/serverless-microservices-web'
+  BROWSERSLIST_IGNORE_OLD_DATA: true
+
+pool:
+  name: Azure Pipelines
 
 steps:
-  - task: Npm@1
-    displayName: 'npm install'
-    inputs:
-      command: custom
+- script: |
+   npm install && npm audit fix --force && npm i -D eslint@7.32.0
+  workingDirectory: $(workingDirectory)
+  displayName: 'Install Dependencies'
 
-      workingDir: 'web/serverless-microservices-web'
+- script: |
+   npm run build
+  workingDirectory: $(workingDirectory) 
+  displayName: 'Build the Project'
 
-      verbose: false
+- task: CopyFiles@2
+  displayName: 'Copy Files'
+  inputs:
+    SourceFolder: '$(workingDirectory)/dist'
+    Contents: 'dist/**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
 
-      customCommand: 'install -f'
-
-  - task: Npm@1
-    displayName: 'npm run build'
-    inputs:
-      command: custom
-
-      workingDir: 'web/serverless-microservices-web'
-
-      verbose: false
-
-      customCommand: 'run build'
-
-  - task: CopyFiles@2
-    displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-    inputs:
-      SourceFolder: 'web/serverless-microservices-web'
-
-      Contents: 'dist/**'
-
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-      CleanTargetFolder: true
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: staticvueweb'
+  inputs:
+    ArtifactName: staticvueweb
