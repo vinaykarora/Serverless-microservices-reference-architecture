@@ -1,13 +1,20 @@
-resources:
-  - repo: self
+trigger:
+ branches:
+    include:
+      - main
+ paths:
+   include:
+     - /dotnet/ServerlessMicroservices.*
+
 variables:
   restoreBuildProjects: |
     **/*.csproj
     !**/*Test*.csproj
   testProjects: '**/*Test*/*.csproj'
   buildConfiguration: 'Release'
-queue:
-  name: Hosted Linux Preview
+  # Agent VM image name
+  vmImageName: 'windows-latest'
+
 steps:
   - task: DotNetCoreCLI@2
     displayName: Restore
